@@ -1,0 +1,4 @@
+%dw 2.0
+
+type auto_19e3c07e_4795_4b60_834b_b3bb12425fa1_Output_Variables_sqlquey = String
+

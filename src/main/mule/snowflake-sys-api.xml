@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd 
+http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd">
+    <flow name="snowflake-sys-api-main">
+        <http:listener config-ref="sys-snowflake-api-http-listener-config" path="/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body><![CDATA[#[payload]]]></http:body>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:router config-ref="snowflake-sys-api-config"/>
+		<error-handler ref="interface-error-handler" />
+    </flow>
+    <flow name="put:\api\v1\orders:application\json:snowflake-sys-api-config">
+		<json-logger:logger doc:name="log-update-snowflake-order-impl-sub-flow-start" doc:id="ef9f7dfd-2612-44dd-8cf3-9fdb9b598a36" config-ref="json-logger-config" message='#["-----" ++ upper("log-update-snowflake-order-impl-sub-flow-start") ++ "-----"]' />
+		<flow-ref doc:name="set-request-params-sub-flow" doc:id="7d845734-9637-4b43-9904-36fe206ea578" name="utilsSub_Flow" target="requestParams" />
+		<flow-ref doc:name="update-snowflake-order-records" doc:id="b4c6f34c-740e-44a8-9534-6d33c2ca5b35" name="records-update-sub-flow" />
+		<json-logger:logger doc:name="log-update-snowflake-order-impl-sub-flow-end" doc:id="8e821493-5f92-4441-8f4e-ab5723284348" config-ref="json-logger-config" message='#["-----" ++ upper("log-update-snowflake-order-impl-sub-flow-end") ++ "-----"]' tracePoint="END"/>
+    </flow>
+    <flow name="get:\api\v1\invoices:snowflake-sys-api-config">
+		<json-logger:logger doc:name="log-get-snowflake-invoice-impl-sub-flow-start" doc:id="565643b3-cad0-4961-a40a-34f9b9b55fa9" config-ref="json-logger-config" message='#["-----" ++ upper("log-get-snowflake-invoice-impl-sub-flow-start") ++ "-----"]' />
+		<flow-ref doc:name="set-request-params-sub-flow" doc:id="18daa608-6c07-4033-8615-34efcdd9f8ad" name="utilsSub_Flow" target="requestParams" />
+		<flow-ref doc:name="fetch-snowflake-invoice-records" doc:id="42b66899-6799-4197-b14c-cf97817ec85c" name="records-fetch-sub-flow" />
+		<json-logger:logger doc:name="log-get-snowflake-invoice-impl-sub-flow-end" doc:id="207e1ed3-3677-4ce8-ab63-7b3630d9e83d" config-ref="json-logger-config" message='#["-----" ++ upper("log-get-snowflake-invoice-impl-sub-flow-end") ++ "-----"]' tracePoint="END"/>
+		 
+    </flow>
+    <flow name="get:\api\v1\orders:snowflake-sys-api-config">
+		<json-logger:logger doc:name="log-get-snowflake-order-impl-sub-flow-start" doc:id="cdce5766-b543-46c2-93a2-e0e0da6cdf97" config-ref="json-logger-config" message='#["-----" ++ upper("log-get-snowflake-order-impl-sub-flow-start") ++ "-----"]' />
+		<flow-ref doc:name="set-request-params-sub-flow" doc:id="f6e825db-d003-4fa4-b718-f3b7001f2d6f" name="utilsSub_Flow" target="requestParams" />
+		<flow-ref doc:name="fetch-snowflake-order-records" doc:id="3268be6a-4581-41ab-be06-d64cd5947d0a" name="records-fetch-sub-flow" />
+		<json-logger:logger doc:name="log-get-snowflake-order-impl-sub-flow-end" doc:id="c6d53dab-88cc-4624-8753-87dc9b8668c2" config-ref="json-logger-config" message='#["-----" ++ upper("log-get-snowflake-order-impl-sub-flow-end") ++ "-----"]' tracePoint="END"/>
+    </flow>
+    <flow name="post:\api\v1\invoices:application\json:snowflake-sys-api-config">
+		<json-logger:logger doc:name="log-create-snowflake-invoice-impl-sub-flow-start" doc:id="8e8f1e4a-18ec-4785-b6c0-2b1328232a82" config-ref="json-logger-config" message='#["-----" ++ upper("log-create-snowflake-invoice-impl-sub-flow-start") ++ "-----"]' />
+		<flow-ref doc:name="set-request-params-sub-flow" doc:id="b3529120-a153-46be-b4e1-93dc6133d86c" name="utilsSub_Flow" target="requestParams" />
+		<flow-ref doc:name="create-snowflake-invoice-records" doc:id="6d738a23-fdd6-42a2-a19a-e4f4ef9e1074" name="records-insert-sub-flow" />
+		<json-logger:logger doc:name="log-create-snowflake-invoice-impl-sub-flow-end" doc:id="0ad3834f-dc5e-4bc1-a08e-64628627d19d" config-ref="json-logger-config" message='#["-----" ++ upper("log-create-snowflake-invoice-impl-sub-flow-end") ++ "-----"]' tracePoint="END"/>
+    </flow>
+    <flow name="post:\api\v1\orders:application\json:snowflake-sys-api-config">
+		<json-logger:logger doc:name="log-create-snowflake-order-impl-sub-flow-start" doc:id="a44d0d1e-7aee-4866-9be2-42fe24511555" config-ref="json-logger-config" message='#["-----" ++ upper("log-create-snowflake-order-impl-sub-flow-start") ++ "-----"]' />
+		<flow-ref doc:name="set-request-params-sub-flow" doc:id="40319ee5-5046-4834-93ce-556dd3fd6815" name="utilsSub_Flow" target="requestParams" />
+		<flow-ref doc:name="create-snowflake-order-records" doc:id="626e62d8-28ce-499a-ae1d-34ff85470f45" name="records-insert-sub-flow" />
+		<json-logger:logger doc:name="log-create-snowflake-order-impl-sub-flow-end" doc:id="822a5e35-d0bd-4bb0-8add-8e918fc59377" config-ref="json-logger-config" message='#["-----" ++ upper("log-create-snowflake-order-impl-sub-flow-end") ++ "-----"]' tracePoint="END"/>
+    </flow>
+</mule>

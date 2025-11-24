@@ -1,0 +1,77 @@
+#%RAML 1.0
+title: snowflake-sys-api
+version: v1
+documentation:
+  - title: SQL System API
+    content: This API is a wrapper around SQL system. It enables operations on the SQL database.
+protocols:
+  - HTTPS
+
+traits:
+  error-response: !include exchange_modules/452f3798-822a-44ef-87e5-4e40034054da/trait-error-response/1.0.0/trait-error-response.raml
+
+/api:
+  /v1:    
+    /orders:
+      is: [error-response]
+      post:
+        description: Create a new invoice record in SQL database.
+        body:
+          application/json:
+            example: !include examples/orderPostRequest.json
+        responses:
+          201:
+            body:
+              application/json:
+                example: !include examples/orderPostResponse.json
+      put:
+        description: Update an existing invoice record in SQL database
+        body:
+          application/json:
+            example: !include examples/orderPutRequest.json
+        responses:
+          200:
+            body:
+              application/json:
+                example: !include examples/orderPutResponse.json
+                
+      get:
+        description: fetch invoice records from SQL database
+        responses:
+          200:
+            body:
+              application/json:
+                example: !include examples/orderGetResponse.json
+
+            
+    /invoices:
+      is: [error-response] 
+      post:
+        description: Create a new invoice record in SQL database.
+        body:
+          application/json:
+            example: !include examples/invoicePostRequest.json 
+        responses:
+          201:
+            body:
+              application/json:
+                example: !include examples/invoicePostResponse.json
+
+      put:
+        description: Update an existing invoice record in SQL database
+        body:
+          application/json:
+            example: !include examples/invoicePutRequest.json
+        responses:
+          200:
+            body:
+              application/json:
+                example: !include examples/invoicePutResponse.json
+                
+      get:
+        description: fetch invoice records from SQL database
+        responses:
+          200:
+            body:
+              application/json:
+                example: !include examples/invoiceGetResponse.json

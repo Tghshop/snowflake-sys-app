@@ -1,0 +1,6 @@
+{
+  "errorCode":"502",
+  "errorMessage":"Bad gateway",
+  "errorPayloadContent": "Bad gateway",
+  "correlationId":"bd602b39-8bbb-4578-8104-54c6f97b1925"
+}
