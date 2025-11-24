@@ -1,9 +1,0 @@
-{
-  "Invoice_Id": "INV-90021",
-  "Customer": "a1C8K0000012ABCQ",
-  "Order": "a1B9D0000012XYZUQ",
-  "Invoice_Date": "2025-10-20",
-  "Discount": 200.00,
-  "Tax": 150.00,
-  "Total_Price": 4450.00
-}
