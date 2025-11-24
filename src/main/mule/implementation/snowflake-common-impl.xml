@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:snowflake="http://www.mulesoft.org/schema/mule/snowflake"
+	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/snowflake http://www.mulesoft.org/schema/mule/snowflake/current/mule-snowflake.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd">
+	<sub-flow name="records-fetch-sub-flow" doc:id="19e3c07e-4795-4b60-834b-b3bb12425fa1" >
+		<json-logger:logger doc:name="log-snowflake-fetch-sub-flow-start" doc:id="ce3fe565-a29e-43d0-a94a-4b699fa4b4e9" config-ref="json-logger-config" message='#["-----" ++ upper("log-snowflake-fetch-sub-flow-start") ++ "-----"]'/>
+		<ee:transform doc:name="create-sql-query" doc:id="7412e1a9-7e1b-427f-a749-4e580cb183bf" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="sqlquey" ><![CDATA[%dw 2.0
+output application/json
+---
+"SELECT * from " ++  (vars.requestParams.queryParams.tablename as String)]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<snowflake:select doc:name="fetch-snowflake-details" doc:id="327ed3bd-323f-4fe5-a1a9-10091b9805a7" config-ref="snowflake-db-config">
+			<snowflake:sql ><![CDATA[#[vars.sqlquey]]]></snowflake:sql>
+		</snowflake:select>
+		<ee:transform doc:name="covert-payload-to-json" doc:id="eedc7ce0-1d55-48cf-bfdd-037934de611c">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<json-logger:logger doc:name="log-snowflake-fetch-sub-flow-end" doc:id="7afa8c98-abcf-4cf6-926c-0500a98bf097" config-ref="json-logger-config" message='#["-----" ++ upper("log-snowflake-fetch-sub-flow-end") ++ "-----"]' tracePoint="END"/>
+	</sub-flow>
+	<sub-flow name="records-insert-sub-flow" doc:id="755acc7b-4481-46a6-a050-56dc406cbb5c" >
+		<json-logger:logger doc:name="log-snowflake-create-sub-flow-start" doc:id="e3584357-56d3-4d20-8d88-b0e9ebd0d0f9" config-ref="json-logger-config" message='#["-----" ++ upper("log-snowflake-create-sub-flow-start") ++ "-----"]' />
+		<ee:transform doc:name="create-sql-query" doc:id="a1de7d33-fdde-4e68-a2c1-e0d853cfaa0f" >
+			<ee:message />
+			<ee:variables >
+				<ee:set-variable variableName="sqlquey" ><![CDATA[%dw 2.0
+output text
+var tablename=vars.requestParams.queryParams.tablename as String
+---
+"INSERT INTO "++ tablename ++"(" ++ (payload pluck ((v,k) -> k) joinBy ", ") ++ 
+") VALUES (" ++ (payload pluck ((v,k) -> ':'++ k) joinBy ", ") ++ ");"
+
+
+]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<snowflake:insert doc:name="Insert-to-snowflake" doc:id="e70677be-0d1f-4913-9667-63bb8c3098d6" config-ref="snowflake-db-config">
+			<snowflake:sql><![CDATA[#[vars.sqlquey]]]></snowflake:sql>
+			<snowflake:input-parameters><![CDATA[#[payload]]]></snowflake:input-parameters>
+		</snowflake:insert>
+		<ee:transform doc:name="covert-payload-to-json" doc:id="d165409e-4c5a-4613-b912-d149891f7cd8" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<json-logger:logger doc:name="log-snowflake-create-sub-flow-end" doc:id="545316dd-8e06-4652-9f89-18953944e51f" config-ref="json-logger-config" message='#["-----" ++ upper("log-snowflake-create-sub-flow-end") ++ "-----"]' tracePoint="END"/>
+	</sub-flow>
+	<sub-flow name="records-update-sub-flow" doc:id="69a39aaf-67d7-4fc0-8cd8-52e95f8be770" >
+		<json-logger:logger doc:name="log-snowflake-update-sub-flow-start" doc:id="5f4b47f9-a567-4fa9-a634-bf66c8d4a434" config-ref="json-logger-config" message='#["-----" ++ upper("log-snowflake-update-sub-flow-start") ++ "-----"]' />
+		<ee:transform doc:name="create-sql-query" doc:id="2b89ce2d-f645-4bdd-a77e-1beedaf16675" >
+			<ee:message />
+			<ee:variables >
+				<ee:set-variable variableName="sqlquey" ><![CDATA[%dw 2.0
+output text
+var tablename=vars.requestParams.queryParams.tablename as String
+---
+"UPDATE " ++ tablename ++ 
+" SET " ++ 
+(payload pluck ((v, k) -> k ++ " = :" ++ k) joinBy ", ") ++
+" WHERE " ++ (payload pluck ((v, k) -> k))[0] ++ " = :" ++ (payload pluck ((v, k) -> k))[0] ++ ";"]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<snowflake:update doc:name="update-record-snowflake" doc:id="b17ffc15-4900-4952-afd5-c8c6edfd0891" config-ref="snowflake-db-config">
+			<snowflake:sql ><![CDATA[#[vars.sqlquey]]]></snowflake:sql>
+			<snowflake:input-parameters ><![CDATA[#[payload]]]></snowflake:input-parameters>
+		</snowflake:update>
+		<ee:transform doc:name="covert-payload-to-json" doc:id="a76e30e7-3b6d-4b5e-9b4b-75dd66fe5cf3">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<json-logger:logger doc:name="log-snowflake-update-sub-flow-end" doc:id="db4273d3-5a4d-40c6-8a9a-106796d4f01b" config-ref="json-logger-config" message='#["-----" ++ upper("log-snowflake-update-sub-flow-end") ++ "-----"]' tracePoint="END"/>
+	</sub-flow>
+
+
+	</mule>

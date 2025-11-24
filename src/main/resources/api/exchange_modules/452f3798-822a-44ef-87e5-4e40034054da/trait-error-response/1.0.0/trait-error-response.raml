@@ -1,0 +1,48 @@
+#%RAML 1.0 Trait
+
+description: This trait covers client and server error responses with appropriate HTTP status codes and JSON error messages.
+responses:
+  400:
+    body:
+      application/json:
+        example: !include examples/400errorResponse.json
+  
+  401:
+    body:
+      application/json:
+        example: !include examples/401errorResponse.json
+
+  403:
+    body:
+      application/json:
+        example: !include examples/403errorResponse.json
+
+  404:
+    body:
+      application/json:
+        example: !include examples/404errorResponse.json
+
+  405:
+    body:
+      application/json:
+        example: !include examples/405errorResponse.json
+
+  415:
+    body:
+      application/json:
+        example: !include examples/415errorResponse.json
+
+  429:
+    body:
+      application/json:
+        example: !include examples/429errorResponse.json
+
+  500:
+    body:
+      application/json:
+        example: !include examples/500errorResponse.json
+
+  502:
+    body:
+      application/json:
+        example: !include examples/502errorResponse.json
