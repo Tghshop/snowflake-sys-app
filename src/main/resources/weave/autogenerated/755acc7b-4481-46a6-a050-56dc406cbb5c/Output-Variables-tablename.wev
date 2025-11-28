@@ -1,7 +1,0 @@
-%dw 2.0
-
-type auto_755acc7b_4481_46a6_a050_56dc406cbb5c_Output_Variables_tablename = {|
-  order: String, 
-  invoice: String
-|}
-

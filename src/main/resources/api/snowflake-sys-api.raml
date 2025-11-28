@@ -8,7 +8,7 @@ protocols:
   - HTTPS
 
 traits:
-  error-response: !include exchange_modules/452f3798-822a-44ef-87e5-4e40034054da/trait-error-response/1.0.0/trait-error-response.raml
+  error-response: !include exchange_modules/635159a8-be44-4ed5-a886-bb461c9661c6/trait-error-response/1.0.0/trait-error-response.raml
 
 /api:
   /v1:    
@@ -56,17 +56,6 @@ traits:
             body:
               application/json:
                 example: !include examples/invoicePostResponse.json
-
-      put:
-        description: Update an existing invoice record in SQL database
-        body:
-          application/json:
-            example: !include examples/invoicePutRequest.json
-        responses:
-          200:
-            body:
-              application/json:
-                example: !include examples/invoicePutResponse.json
                 
       get:
         description: fetch invoice records from SQL database

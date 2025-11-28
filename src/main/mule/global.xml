@@ -14,7 +14,7 @@ http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/sc
 http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd">
 	    <apikit:config name="snowflake-sys-api-config" api="snowflake-sys-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
 	<configuration-properties doc:name="Configuration properties" doc:id="6fe1f8f0-c314-40fd-b09f-7efa1f2eba2d" file="properties/${mule.env}-properties.yaml" />
-	 <configuration doc:name="Configuration" doc:id="56dcaa86-8fac-486c-a6ca-c8da3122a941" defaultErrorHandler-ref="interface-error-handler" />
+	 <configuration doc:name="Configuration" doc:id="56dcaa86-8fac-486c-a6ca-c8da3122a941" defaultErrorHandler-ref="global-error-handler" />
     <http:listener-config name="sys-snowflake-api-http-listener-config">
         <http:listener-connection host="0.0.0.0" port="${http-listener.port}" readTimeout="${http-listener.read-timeout}"/>
     </http:listener-config> 

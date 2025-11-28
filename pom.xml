@@ -4,7 +4,7 @@
 
 	<groupId>com.mycompany</groupId>
 	<artifactId>sys-snowflake-app</artifactId>
-	<version>1.0.1</version>
+	<version>1.0.0</version>
 	<packaging>mule-application</packaging>
 
 	<name>sys-snowflake-app</name>
@@ -15,6 +15,7 @@
 
 		<app.runtime>4.9.9</app.runtime>
 		<mule.maven.plugin.version>4.3.0</mule.maven.plugin.version>
+		<munit.version>3.4.0</munit.version>
 	</properties>
 
 	<build>
@@ -43,6 +44,29 @@
 					<classifier>---- select project type ----</classifier>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>com.mulesoft.munit.tools</groupId>
+				<artifactId>munit-maven-plugin</artifactId>
+				<version>${munit.version}</version>
+				<executions>
+					<execution>
+						<id>test</id>
+						<phase>test</phase>
+						<goals>
+							<goal>test</goal>
+							<goal>coverage-report</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<coverage>
+						<runCoverage>true</runCoverage>
+						<formats>
+							<format>html</format>
+						</formats>
+					</coverage>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -58,13 +82,6 @@
 			<artifactId>mule-sockets-connector</artifactId>
 			<version>1.2.6</version>
 			<classifier>mule-plugin</classifier>
-		</dependency>
-		<dependency>
-			<groupId>452f3798-822a-44ef-87e5-4e40034054da</groupId>
-			<artifactId>sql-sys-apiraml</artifactId>
-			<version>1.0.0</version>
-			<classifier>raml</classifier>
-			<type>zip</type>
 		</dependency>
 		<dependency>
 			<groupId>org.mule.modules</groupId>
@@ -95,28 +112,42 @@
 			<version>0.1</version>
 		</dependency>
 		<dependency>
-			<groupId>com.mulesoft.connectors</groupId>
-			<artifactId>mule-amqp-connector</artifactId>
-			<version>1.8.1</version>
-			<classifier>mule-plugin</classifier>
-		</dependency>
-		<dependency>
-			<groupId>452f3798-822a-44ef-87e5-4e40034054da</groupId>
-			<artifactId>json-logger</artifactId>
-			<version>2.2.3</version>
+			<groupId>com.mulesoft.modules</groupId>
+			<artifactId>mule-secure-configuration-property-module</artifactId>
+			<version>1.3.0</version>
 			<classifier>mule-plugin</classifier>
 		</dependency>
 		<dependency>
 			<groupId>org.mule.connectors</groupId>
 			<artifactId>mule-jms-connector</artifactId>
-			<version>1.9.7</version>
+			<version>1.10.2</version>
 			<classifier>mule-plugin</classifier>
 		</dependency>
 		<dependency>
-			<groupId>com.mulesoft.modules</groupId>
-			<artifactId>mule-secure-configuration-property-module</artifactId>
-			<version>1.3.0</version>
+			<groupId>635159a8-be44-4ed5-a886-bb461c9661c6</groupId>
+			<artifactId>json-logger</artifactId>
+			<version>3.1.0</version>
 			<classifier>mule-plugin</classifier>
+		</dependency>
+		<dependency>
+			<groupId>com.mulesoft.munit</groupId>
+			<artifactId>munit-runner</artifactId>
+			<version>3.4.0</version>
+			<classifier>mule-plugin</classifier>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.mulesoft.munit</groupId>
+			<artifactId>munit-tools</artifactId>
+			<version>3.4.0</version>
+			<classifier>mule-plugin</classifier>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mule.weave</groupId>
+			<artifactId>assertions</artifactId>
+			<version>1.2.1</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

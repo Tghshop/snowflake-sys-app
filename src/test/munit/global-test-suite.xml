@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="global-test-suite.xml" />
+	<munit:test name="snowflake-sys-api-test-suite-snowflake-sys-api-mainTest-400" doc:id="dd9815de-bf4d-4114-9449-fee91552c647" description="Test" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mocking APIkit router" doc:id="01c3c921-a64a-4694-bc59-c9bb68d788a0" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="snowflake-sys-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:BAD_REQUEST" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<try doc:name="Try" doc:id="54bf18c3-7b7c-435c-ba88-17a594aa3d86" >
+				<flow-ref doc:name="Flow-ref to snowflake-sys-api-main" doc:id="457199a7-b15d-4a3f-b347-904bf5d4055a" name="snowflake-sys-api-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="b558616f-bf97-48fe-a9f7-d574f4c40abb" >
+						<logger level="INFO" doc:name="Logger" doc:id="2fed3653-1d95-431e-bdde-d7ad0eac70bb" message="mule"/>
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="ff211457-dfc9-4adc-add4-bd9fc04f8bc7" actual="#[payload.status]" expected="ERROR"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="snowflake-sys-api-test-suite-snowflake-sys-api-mainTest-404" doc:id="aaaa791a-f547-4bda-b08e-273745c5b898" description="Test" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mocking APIkit router" doc:id="429bc314-761e-461c-9554-2d6622ce0df3" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="snowflake-sys-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_FOUND" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<try doc:name="Try" doc:id="6633b03c-2661-4554-ac16-48419ad1fd15" >
+				<flow-ref doc:name="Flow-ref to snowflake-sys-api-main" doc:id="1e4751c3-1739-4d8b-a010-5e5ae45aa3b9" name="snowflake-sys-api-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="c455d9a2-7fd7-4b69-aef8-6ed0d75a3ed7" >
+						<logger level="INFO" doc:name="Logger" doc:id="a31795a6-76df-4e83-943b-cde686ff0fde" message="mule" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="5a5ccf0d-b957-41e9-9450-c5836d2d2a6d" actual="#[payload.status]" expected="ERROR" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="snowflake-sys-api-test-suite-snowflake-sys-api-mainTest-406" doc:id="a84f618e-61cb-48d5-9dc9-c603a18b4191" description="Test" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mocking APIkit router" doc:id="e5e23cfb-2b94-4c3f-8e92-8659aa89ca6f" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="snowflake-sys-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_ACCEPTABLE" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<try doc:name="Try" doc:id="d910063f-453b-40eb-b7fe-2616bb8999cf" >
+				<flow-ref doc:name="Flow-ref to snowflake-sys-api-main" doc:id="facf6066-af47-43ae-82a2-e9b0495e81cf" name="snowflake-sys-api-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="895bd229-4fe7-486b-9b5e-b47ca41a83ac" >
+						<logger level="INFO" doc:name="Logger" doc:id="1fbd74c4-a8b3-425b-a7b5-73517ac5b983" message="mule" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="9d55350d-d6e9-4ee3-838c-6875c0cdcaf1" actual="#[payload.status]" expected="ERROR" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="snowflake-sys-api-test-suite-snowflake-sys-api-mainTest-501" doc:id="ca10a0e2-1fe1-4d5a-ac44-a47d91382a5a" description="Test" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mocking APIkit router" doc:id="38cb0bd4-4c33-4a31-b141-2f2e26795471" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="snowflake-sys-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_IMPLEMENTED" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<try doc:name="Try" doc:id="a2703799-fd9a-454d-9871-694526d68bb9" >
+				<flow-ref doc:name="Flow-ref to snowflake-sys-api-main" doc:id="8249bfa4-7311-42da-9727-b25f34c6efab" name="snowflake-sys-api-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="a10e620d-29cd-460b-bb47-19244960e734" >
+						<logger level="INFO" doc:name="Logger" doc:id="dfb2688b-a03d-49c4-8cfa-e6c676c636a5" message="mule" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="d6ed9a75-fffe-4017-8431-ab8b7e8be3ac" actual="#[payload.status]" expected="ERROR" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="snowflake-sys-api-test-suite-snowflake-sys-api-mainTest-415" doc:id="85363053-4cbf-4fef-9cd7-aef52e1b2ec0" description="Test" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mocking APIkit router" doc:id="f1c4a6d8-56fd-4942-b5ed-5236c022817d" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="snowflake-sys-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:UNSUPPORTED_MEDIA_TYPE" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<try doc:name="Try" doc:id="09c4f722-3c4c-4526-97ab-7b00ec8722a5" >
+				<flow-ref doc:name="Flow-ref to snowflake-sys-api-main" doc:id="b3d440e3-e43a-4d39-8e4c-b4a69d398c42" name="snowflake-sys-api-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="4d990e5e-d653-40ce-aa45-af9a7990a2f2" >
+						<logger level="INFO" doc:name="Logger" doc:id="8eb5fccd-13ad-470b-9fd0-4fc6e8069b9e" message="mule" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="55acf282-964c-451c-8be9-a27f82795070" actual="#[payload.status]" expected="ERROR" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="snowflake-sys-api-test-suite-snowflake-sys-api-mainTest-405" doc:id="12d4d7aa-acdc-4d55-83cc-ae4dae94790e" description="Test" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mocking APIkit router" doc:id="93a40fdb-ebe9-43b7-95f6-da7a0c46e261" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="snowflake-sys-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:METHOD_NOT_ALLOWED" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="772c21a7-fc5a-486c-9627-1b174f60b334" cloneOriginalEvent="true"/>
+			<try doc:name="Try" doc:id="7c2ad2d1-e390-4106-a9af-034f4bf70707" >
+				<flow-ref doc:name="Flow-ref to snowflake-sys-api-main" doc:id="eab94a75-9841-42e1-9bde-589b65971e4c" name="snowflake-sys-api-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="1ccd1060-03db-4475-9863-e9d47491f39c" >
+						<logger level="INFO" doc:name="Logger" doc:id="e1981f0a-5bbe-4c79-bcd6-1e222e5a122a" message="mule" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="0336e31d-a583-440a-9938-5836466a3867" actual="#[payload.status]" expected="ERROR" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="snowflake-sys-api-test-suite-snowflake-sys-api-main-global-error-handler-test" doc:id="efbf78b5-6314-4c84-9f22-29be9017369e" description="Test" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mocking Transform" doc:id="a9252d1b-f132-4fdf-a51e-f6a9062be9d7" processor="snowflake:insert" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Insert-to-snowflake" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="e70677be-0d1f-4913-9667-63bb8c3098d6" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://invoices/post-invoice-insert-response.dwl')]" />
+					<munit-tools:error typeId="ANY" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="6a41a6a7-37b6-47d6-87f2-8387c552d99b" cloneOriginalEvent="true">
+				<munit:payload value="#[output application/json --- readUrl('classpath://invoices/post-invoice-request.dwl')]" />
+				<munit:attributes value="#[{&#10;	queryParams: {&#10;       tablename: 'invoices'&#10;          }&#10;}]" />
+			</munit:set-event>
+			<try doc:name="Try" doc:id="e36ee91b-092f-4f5e-9fd5-35e8cc361044" >
+				<flow-ref doc:name="Flow-ref to post:\api\v1\invoices:application\json:snowflake-sys-api-config" doc:id="592e4f90-eda6-4c6c-a20d-25cb735ba9dc" name="post:\api\v1\invoices:application\json:snowflake-sys-api-config" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="846ba997-cb8b-4ad3-bc0d-94a1dfa9122f" >
+						<logger level="INFO" doc:name="Logger" doc:id="bdd2bfee-af0d-423a-aa26-60a47db8d0ad" message="mule" />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="31fcc58d-6931-4923-a548-b8e2bdf26deb" actual="#[payload.status]" expected="ERROR" />
+		</munit:validation>
+	</munit:test>
+
+
+</mule>

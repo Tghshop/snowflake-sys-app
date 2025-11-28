@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="snowflake-sys-api-test-suite.xml" />
+	<munit:test name="snowflake-sys-api-test-suite-post:\api\v1\orders:application\json:snowflake-sys-api-configTest" doc:id="eeb0cb4c-9131-4fc3-95d0-694c74a1485f" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="mocking-snowflake-insert" doc:id="eb09dadd-d647-4ae7-aa58-45c61afe2e04" processor="snowflake:insert">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Insert-to-snowflake" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="e70677be-0d1f-4913-9667-63bb8c3098d6" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://orders/post-order-insert-response.dwl')]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="12c72904-af4e-4e26-895b-810c2b6c81b4" cloneOriginalEvent="true">
+				<munit:payload value="#[output application/json --- readUrl('classpath://orders/post-order-request.dwl')]" mediaType="application/json" />
+				<munit:attributes value="#[{&#10;	queryParams: {&#10;       tablename: 'orders'&#10;          }&#10;}]" />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to post:\api\v1\orders:application\json:snowflake-sys-api-config" doc:id="5a8dda42-1a48-400e-b485-1358f7880af4" name="post:\api\v1\orders:application\json:snowflake-sys-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="fd4c0b96-2883-46ee-938a-ca9ed2b4a23b" actual="#[payload]" expected="#[output application/json --- readUrl('classpath://orders/post-order-response.dwl')]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="snowflake-sys-api-test-suite-put:\api\v1\orders:application\json:snowflake-sys-api-configTest" doc:id="d400b536-bfb2-4ea2-8c08-26a885f96e38" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="mocking-snowflake-update" doc:id="01aa225f-8d7e-4e76-82c3-0cfd006e1a7f" processor="snowflake:update" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="update-record-snowflake" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="b17ffc15-4900-4952-afd5-c8c6edfd0891" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://orders/put-order-update-response.dwl')]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="8cb052e6-6a06-4703-b470-38eead1f7afe" cloneOriginalEvent="true">
+				<munit:payload value="#[output application/json --- readUrl('classpath://orders/put-order-request.dwl')]" mediaType="application/json" />
+				<munit:attributes value="#[{&#10;	queryParams: {&#10;       tablename: 'orders'&#10;          }&#10;}]" />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to put:\api\v1\orders:application\json:snowflake-sys-api-config" doc:id="bfd37dc9-4d8e-425f-85bd-8c2fd8fe754f" name="put:\api\v1\orders:application\json:snowflake-sys-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="f587801a-e151-4e1d-8af3-8a65709a071f" actual="#[payload]" expected="#[output application/json --- readUrl('classpath://orders/put-order-response.dwl')]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="snowflake-sys-api-test-suite-get:\api\v1\orders:snowflake-sys-api-configTest" doc:id="fa598637-50c3-433a-9e48-2fa027b4e8a5" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="mocking-snowflake-select" doc:id="d73eb586-cf1f-4e8a-ac27-021b7721017e" processor="snowflake:select" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="fetch-snowflake-details" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="327ed3bd-323f-4fe5-a1a9-10091b9805a7" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://orders/get-order-select-response.dwl')]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="d96ea395-0ec7-4ea0-8e1f-2d5d82e3f467">
+				<munit:attributes value="#[{&#10;	queryParams: {&#10;       tablename: 'orders'&#10;          }&#10;}]" />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to get:\api\v1\orders:snowflake-sys-api-config" doc:id="8a46ecf6-5a63-4394-9df7-ec2c8fe6dee5" name="get:\api\v1\orders:snowflake-sys-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="6fe0cef7-8f5d-4c09-837d-5fd23fbedfaa" actual="#[payload]" expected="#[output application/json --- readUrl('classpath://orders/get-order-response.dwl')]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="snowflake-sys-api-test-suite-post:\api\v1\invoices:application\json:snowflake-sys-api-configTest" doc:id="c403993d-6309-4e9b-9e40-a3f6baeefe82" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="mocking-snowflake-insert" doc:id="ccd1b9e7-9b4f-49bd-824d-5b543877f909" processor="snowflake:insert" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Insert-to-snowflake" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="e70677be-0d1f-4913-9667-63bb8c3098d6" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://invoices/post-invoice-insert-response.dwl')]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="29cc9158-360f-41d1-a2eb-849512b5371d" cloneOriginalEvent="true">
+				<munit:payload value="#[output application/json --- readUrl('classpath://invoices/post-invoice-request.dwl')]" mediaType="application/json" />
+				<munit:attributes value="#[{&#10;	queryParams: {&#10;       tablename: 'invoices'&#10;          }&#10;}]" />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to post:\api\v1\invoices:application\json:snowflake-sys-api-config" doc:id="2ac06b3f-c431-4ae6-afd7-672463fc420f" name="post:\api\v1\invoices:application\json:snowflake-sys-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="c3995b22-91bb-4594-9a82-82dc4d91bc79" actual="#[payload]" expected="#[output application/json --- readUrl('classpath://invoices/post-invoice-response.dwl')]" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="snowflake-sys-api-test-suite-get:\api\v1\invoices:snowflake-sys-api-configTest" doc:id="46c22efb-27c7-417a-a1f4-51ed4d93b0b4" description="Test">
+		<munit:behavior>
+			<munit-tools:mock-when doc:name="mocking-snowflake-select" doc:id="9d9d0c33-a1e5-46ef-9d37-30e9d25e6ed1" processor="snowflake:select" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="fetch-snowflake-details" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="327ed3bd-323f-4fe5-a1a9-10091b9805a7" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://invoices/get-invoice-select-response.dwl')]" mediaType="application/json" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="b8a1e5dd-7127-47c5-8dcd-228902e6600e" >
+				<munit:attributes value="#[{&#10;	queryParams: {&#10;       tablename: 'invoices'&#10;          }&#10;}]" />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to get:\api\v1\invoices:snowflake-sys-api-config" doc:id="97ae9e3d-63f0-4d7b-ad96-9622f425b53b" name="get:\api\v1\invoices:snowflake-sys-api-config" />
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="4a062b02-8f9f-4766-8e0b-86337b850f93" actual="#[payload]" expected="#[output application/json --- readUrl('classpath://invoices/get-invoice-response.dwl')]"/>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>
