@@ -10,7 +10,7 @@
 	<munit:config name="global-test-suite.xml" />
 	<munit:test name="snowflake-sys-api-test-suite-snowflake-sys-api-mainTest-400" doc:id="dd9815de-bf4d-4114-9449-fee91552c647" description="Test" >
 		<munit:behavior >
-			<munit-tools:mock-when doc:name="Mocking APIkit router" doc:id="01c3c921-a64a-4694-bc59-c9bb68d788a0" processor="apikit:router">
+			<munit-tools:mock-when doc:name="mocking-apikit-router" doc:id="01c3c921-a64a-4694-bc59-c9bb68d788a0" processor="apikit:router">
 				<munit-tools:with-attributes >
 					<munit-tools:with-attribute whereValue="snowflake-sys-api-config" attributeName="config-ref" />
 				</munit-tools:with-attributes>
@@ -35,7 +35,7 @@
 	</munit:test>
 	<munit:test name="snowflake-sys-api-test-suite-snowflake-sys-api-mainTest-404" doc:id="aaaa791a-f547-4bda-b08e-273745c5b898" description="Test" >
 		<munit:behavior >
-			<munit-tools:mock-when doc:name="Mocking APIkit router" doc:id="429bc314-761e-461c-9554-2d6622ce0df3" processor="apikit:router" >
+			<munit-tools:mock-when doc:name="mocking-apikit-router" doc:id="429bc314-761e-461c-9554-2d6622ce0df3" processor="apikit:router" >
 				<munit-tools:with-attributes >
 					<munit-tools:with-attribute whereValue="snowflake-sys-api-config" attributeName="config-ref" />
 				</munit-tools:with-attributes>
@@ -60,7 +60,7 @@
 	</munit:test>
 	<munit:test name="snowflake-sys-api-test-suite-snowflake-sys-api-mainTest-406" doc:id="a84f618e-61cb-48d5-9dc9-c603a18b4191" description="Test" >
 		<munit:behavior >
-			<munit-tools:mock-when doc:name="Mocking APIkit router" doc:id="e5e23cfb-2b94-4c3f-8e92-8659aa89ca6f" processor="apikit:router" >
+			<munit-tools:mock-when doc:name="mocking-apikit-router" doc:id="e5e23cfb-2b94-4c3f-8e92-8659aa89ca6f" processor="apikit:router" >
 				<munit-tools:with-attributes >
 					<munit-tools:with-attribute whereValue="snowflake-sys-api-config" attributeName="config-ref" />
 				</munit-tools:with-attributes>
@@ -85,7 +85,7 @@
 	</munit:test>
 	<munit:test name="snowflake-sys-api-test-suite-snowflake-sys-api-mainTest-501" doc:id="ca10a0e2-1fe1-4d5a-ac44-a47d91382a5a" description="Test" >
 		<munit:behavior >
-			<munit-tools:mock-when doc:name="Mocking APIkit router" doc:id="38cb0bd4-4c33-4a31-b141-2f2e26795471" processor="apikit:router" >
+			<munit-tools:mock-when doc:name="mocking-apikit-router" doc:id="38cb0bd4-4c33-4a31-b141-2f2e26795471" processor="apikit:router" >
 				<munit-tools:with-attributes >
 					<munit-tools:with-attribute whereValue="snowflake-sys-api-config" attributeName="config-ref" />
 				</munit-tools:with-attributes>
@@ -110,7 +110,7 @@
 	</munit:test>
 	<munit:test name="snowflake-sys-api-test-suite-snowflake-sys-api-mainTest-415" doc:id="85363053-4cbf-4fef-9cd7-aef52e1b2ec0" description="Test" >
 		<munit:behavior >
-			<munit-tools:mock-when doc:name="Mocking APIkit router" doc:id="f1c4a6d8-56fd-4942-b5ed-5236c022817d" processor="apikit:router" >
+			<munit-tools:mock-when doc:name="mocking-apikit-router" doc:id="f1c4a6d8-56fd-4942-b5ed-5236c022817d" processor="apikit:router" >
 				<munit-tools:with-attributes >
 					<munit-tools:with-attribute whereValue="snowflake-sys-api-config" attributeName="config-ref" />
 				</munit-tools:with-attributes>
@@ -135,7 +135,7 @@
 	</munit:test>
 	<munit:test name="snowflake-sys-api-test-suite-snowflake-sys-api-mainTest-405" doc:id="12d4d7aa-acdc-4d55-83cc-ae4dae94790e" description="Test" >
 		<munit:behavior >
-			<munit-tools:mock-when doc:name="Mocking APIkit router" doc:id="93a40fdb-ebe9-43b7-95f6-da7a0c46e261" processor="apikit:router" >
+			<munit-tools:mock-when doc:name="mocking-apikit-router" doc:id="93a40fdb-ebe9-43b7-95f6-da7a0c46e261" processor="apikit:router" >
 				<munit-tools:with-attributes >
 					<munit-tools:with-attribute whereValue="snowflake-sys-api-config" attributeName="config-ref" />
 				</munit-tools:with-attributes>
@@ -161,7 +161,7 @@
 	</munit:test>
 	<munit:test name="snowflake-sys-api-test-suite-snowflake-sys-api-main-global-error-handler-test" doc:id="efbf78b5-6314-4c84-9f22-29be9017369e" description="Test" >
 		<munit:behavior >
-			<munit-tools:mock-when doc:name="Mocking Transform" doc:id="a9252d1b-f132-4fdf-a51e-f6a9062be9d7" processor="snowflake:insert" >
+			<munit-tools:mock-when doc:name="mocking-transform" doc:id="a9252d1b-f132-4fdf-a51e-f6a9062be9d7" processor="snowflake:insert" >
 				<munit-tools:with-attributes >
 					<munit-tools:with-attribute whereValue="Insert-to-snowflake" attributeName="doc:name" />
 					<munit-tools:with-attribute whereValue="e70677be-0d1f-4913-9667-63bb8c3098d6" attributeName="doc:id" />
